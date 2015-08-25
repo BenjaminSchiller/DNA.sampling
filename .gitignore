@@ -1,5 +1,10 @@
 analysis/*.jar
+analysis/jobs.*
+
 java/bin
 java/config
 java/data
 java/plots
+
+results/
+vis/

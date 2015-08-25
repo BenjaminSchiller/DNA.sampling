@@ -1,0 +1,99 @@
+#!/bin/bash
+
+plotDir="../vis"
+
+start="RANDOM"
+stop="Visiting"
+delay="10"
+
+function visualize {
+	gt=$1
+	gp=$2
+	st=$3
+	sp=$4
+	cost=$5
+	resource=$6
+	java -jar vis.jar $plotDir/$pre/ $gt $gp $st $sp $start $stop $cost $resource $delay
+	echo ""
+	echo ""
+	echo ""
+}
+
+function vis {
+	for algo in ${algorithms[@]}; do
+		visualize $1 $2 $algo __ $3 $4
+	done
+}
+
+algorithms=(BFS DFS RANDOM_WALK RANDOM_WALK_NR UNIFORM GREEDY_ORACLE MOD)
+
+# pre="RANDOM-1k-100"
+# vis RANDOM 0__UNDIRECTED__1000__1000 1 100
+# vis RANDOM 0__UNDIRECTED__1000__2000 1 100
+# vis RANDOM 0__UNDIRECTED__1000__3000 1 100
+# vis RANDOM 0__UNDIRECTED__1000__4000 1 100
+
+pre="RANDOM-1k-200"
+# vis RANDOM 0__UNDIRECTED__1000__1000 2 200
+# vis RANDOM 0__UNDIRECTED__1000__2000 2 200
+vis RANDOM 0__UNDIRECTED__1000__3000 2 200
+vis RANDOM 0__UNDIRECTED__1000__4000 2 200
+
+pre="BA-1k-100"
+vis BA 0__UNDIRECTED__10__40__990__1 1 100
+vis BA 0__UNDIRECTED__10__40__990__2 1 100
+vis BA 0__UNDIRECTED__10__40__990__3 1 100
+vis BA 0__UNDIRECTED__10__40__990__4 1 100
+
+# pre="BA-1k-200"
+# vis BA 0__UNDIRECTED__10__40__990__1 2 200
+# vis BA 0__UNDIRECTED__10__40__990__2 2 200
+# vis BA 0__UNDIRECTED__10__40__990__3 2 200
+# vis BA 0__UNDIRECTED__10__40__990__4 2 200
+
+
+
+
+
+
+# pre="RANDOM-5k"
+# plotting RANDOM 0__UNDIRECTED__5000__5000 50 5000
+# plotting RANDOM 0__UNDIRECTED__5000__10000 50 5000
+# plotting RANDOM 0__UNDIRECTED__5000__15000 50 5000
+# plotting RANDOM 0__UNDIRECTED__5000__20000 50 5000
+# plotting RANDOM 0__UNDIRECTED__5000__25000 50 5000
+# plotting RANDOM 0__UNDIRECTED__5000__30000 50 5000
+# plotting RANDOM 0__UNDIRECTED__5000__35000 50 5000
+# plotting RANDOM 0__UNDIRECTED__5000__40000 50 5000
+
+# pre="BA-5k"
+# plotting BA 0__UNDIRECTED__10__40__4990__1 50 5000
+# plotting BA 0__UNDIRECTED__10__40__4990__2 50 5000
+# plotting BA 0__UNDIRECTED__10__40__4990__3 50 5000
+# plotting BA 0__UNDIRECTED__10__40__4990__4 50 5000
+# plotting BA 0__UNDIRECTED__10__40__4990__5 50 5000
+# plotting BA 0__UNDIRECTED__10__40__4990__6 50 5000
+# plotting BA 0__UNDIRECTED__10__40__4990__7 50 5000
+# plotting BA 0__UNDIRECTED__10__40__4990__8 50 5000
+
+
+# pre="RANDOM-10k"
+# plotting RANDOM 0__UNDIRECTED__10000__10000 100 10000
+# plotting RANDOM 0__UNDIRECTED__10000__20000 100 10000
+# plotting RANDOM 0__UNDIRECTED__10000__30000 100 10000
+# plotting RANDOM 0__UNDIRECTED__10000__40000 100 10000
+# plotting RANDOM 0__UNDIRECTED__10000__50000 100 10000
+# plotting RANDOM 0__UNDIRECTED__10000__60000 100 10000
+# plotting RANDOM 0__UNDIRECTED__10000__70000 100 10000
+# plotting RANDOM 0__UNDIRECTED__10000__80000 100 10000
+
+# pre="BA-10k"
+# plotting BA 0__UNDIRECTED__10__40__9990__1 100 10000
+# plotting BA 0__UNDIRECTED__10__40__9990__2 100 10000
+# plotting BA 0__UNDIRECTED__10__40__9990__3 100 10000
+# plotting BA 0__UNDIRECTED__10__40__9990__4 100 10000
+# plotting BA 0__UNDIRECTED__10__40__9990__5 100 10000
+# plotting BA 0__UNDIRECTED__10__40__9990__6 100 10000
+# plotting BA 0__UNDIRECTED__10__40__9990__7 100 10000
+# plotting BA 0__UNDIRECTED__10__40__9990__8 100 10000
+

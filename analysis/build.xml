@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project default="all" name="examples">
-    <target name="all" depends="analysis,plot"/>
+    <target name="all" depends="analysis,plot,vis"/>
     <target name="analysis">
         <jar destfile="analysis.jar" filesetmanifest="mergewithoutmain">
             <manifest>
@@ -17,6 +17,18 @@
         <jar destfile="plot.jar" filesetmanifest="mergewithoutmain">
             <manifest>
                 <attribute name="Main-Class" value="dna.sampling.Plot"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="../java/bin"/>
+            <fileset dir="../../DNA/config"/>
+            <fileset dir="../../DNA/bin"/>
+            <zipgroupfileset dir="../../DNA/lib/" includes="**/*.jar" />
+        </jar>
+    </target>
+    <target name="vis">
+        <jar destfile="vis.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="dna.sampling.Visualization"/>
                 <attribute name="Class-Path" value="."/>
             </manifest>
             <fileset dir="../java/bin"/>
