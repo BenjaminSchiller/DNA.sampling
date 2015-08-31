@@ -49,6 +49,9 @@ public class Analysis extends Sampling {
 		// "UNDIRECTED__1000__10000", "RANDOM_WALK", "__", "RANDOM",
 		// "Visiting", "20", "750", "1", "999999" };
 
+		Config.overwrite("GENERATE_VALUES_FROM_DISTRIBUTION", "false");
+		Config.overwrite("GENERATE_VALUES_FROM_NODEVALUELIST", "false");
+
 		if (!isOk(args)) {
 			printHelp(args);
 			print(args);
@@ -135,6 +138,7 @@ public class Analysis extends Sampling {
 			AggregationException, MetricNotApplicableException {
 		GraphGenerator gg_ = getGraphGenerator();
 		Graph g = gg_.generate();
+		System.out.println("sampling from graph: " + g);
 		GraphGenerator gg = new EmptyGraph(g.getGraphDatastructures());
 		SamplingAlgorithm bg = getSampling(g);
 		Metric[] metrics = getMetrics(g, bg);
