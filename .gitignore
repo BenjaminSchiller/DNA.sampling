@@ -6,5 +6,4 @@ java/config
 java/data
 java/plots
 
-results/
-vis/
+results-*/
