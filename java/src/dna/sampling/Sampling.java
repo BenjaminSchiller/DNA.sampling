@@ -3,15 +3,28 @@ package dna.sampling;
 import java.io.IOException;
 
 import dna.graph.Graph;
-import dna.graph.datastructures.GDS;
+import dna.graph.datastructures.DArrayList;
+import dna.graph.datastructures.DHashMultimap;
+import dna.graph.datastructures.DataStructure.ListType;
 import dna.graph.datastructures.GraphDataStructure;
+import dna.graph.edges.DirectedEdge;
+import dna.graph.edges.UndirectedEdge;
 import dna.graph.generators.GraphGenerator;
+import dna.graph.generators.canonical.Grid2dGraph;
+import dna.graph.generators.canonical.Grid3dGraph;
+import dna.graph.generators.canonical.HoneyCombGraph.ClosedType;
+import dna.graph.generators.connectivity.WeaklyConnectedGraph;
 import dna.graph.generators.evolvingNetworks.BarabasiAlbertGraph;
 import dna.graph.generators.random.RandomGraph;
 import dna.graph.generators.util.ReadableEdgeListFileGraph;
 import dna.graph.generators.util.ReadableFileGraph;
+import dna.graph.nodes.DirectedNode;
+import dna.graph.nodes.UndirectedNode;
 import dna.updates.generators.sampling.BFS;
 import dna.updates.generators.sampling.DFS;
+import dna.updates.generators.sampling.DFS_Jump;
+import dna.updates.generators.sampling.DFS_random;
+import dna.updates.generators.sampling.DFS_random_Jump;
 import dna.updates.generators.sampling.GreedyOracle;
 import dna.updates.generators.sampling.MaximumObservedDegree;
 import dna.updates.generators.sampling.RandomWalk;
@@ -38,7 +51,7 @@ public abstract class Sampling {
 	}
 
 	public static enum GraphType {
-		RANDOM, BA, READ, READ_EDGE_LIST
+		RANDOM, BA, READ, READ_EDGE_LIST, GRID2d, GRID3d
 	}
 
 	public static enum GdsType {
@@ -78,7 +91,8 @@ public abstract class Sampling {
 
 	public String getSamplingName() {
 		return getName(samplingType.toString(), samplingParameters,
-				startType.toString(), stop.toString());
+				startType.toString(), stop.toString(), costPerBatch + "",
+				resource + "");
 	}
 
 	public String getPlotDir() {
@@ -103,6 +117,10 @@ public abstract class Sampling {
 	}
 
 	public GraphGenerator getGraphGenerator() {
+		return new WeaklyConnectedGraph(getGraphGenerator_());
+	}
+
+	public GraphGenerator getGraphGenerator_() {
 		switch (graphType) {
 		case BA:
 			Rand.init(Integer.parseInt(graphParameters[0]));
@@ -144,6 +162,17 @@ public abstract class Sampling {
 						graphParameters[1], graphParameters[3],
 						getGds(GdsType.valueOf(graphParameters[2])));
 			}
+		case GRID2d:
+			return new Grid2dGraph(getGds(GdsType.valueOf(graphParameters[0])),
+					Integer.parseInt(graphParameters[1]),
+					Integer.parseInt(graphParameters[2]),
+					ClosedType.valueOf(graphParameters[3]));
+		case GRID3d:
+			return new Grid3dGraph(getGds(GdsType.valueOf(graphParameters[0])),
+					Integer.parseInt(graphParameters[1]),
+					Integer.parseInt(graphParameters[2]),
+					Integer.parseInt(graphParameters[3]),
+					ClosedType.valueOf(graphParameters[4]));
 		default:
 			System.err.println("invalid graph type: " + graphType);
 			return null;
@@ -153,9 +182,19 @@ public abstract class Sampling {
 	public GraphDataStructure getGds(GdsType gdsType) {
 		switch (gdsType) {
 		case DIRECTED:
-			return GDS.directed();
+			// return GDS.directed();
+			return new GraphDataStructure(GraphDataStructure.getList(
+					ListType.GlobalNodeList, DArrayList.class,
+					ListType.GlobalEdgeList, DHashMultimap.class,
+					ListType.LocalEdgeList, DArrayList.class),
+					DirectedNode.class, DirectedEdge.class);
 		case UNDIRECTED:
-			return GDS.undirected();
+			// return GDS.undirected();
+			return new GraphDataStructure(GraphDataStructure.getList(
+					ListType.GlobalNodeList, DArrayList.class,
+					ListType.GlobalEdgeList, DHashMultimap.class,
+					ListType.LocalEdgeList, DArrayList.class),
+					UndirectedNode.class, UndirectedEdge.class);
 		default:
 			System.err.println("invalid gds type: " + gdsType);
 			return null;
@@ -168,34 +207,36 @@ public abstract class Sampling {
 			return new BFS(g, start, costPerBatch, resource, stop);
 		case DFS:
 			return new DFS(g, start, costPerBatch, resource, stop);
+		case RANDOM_WALK:
+			return new RandomWalk(g, start, costPerBatch, resource, stop);
+		case RANDOM_WALK_NR:
+			return new RandomWalkNR(g, start, costPerBatch, resource, stop);
+		case UNIFORM:
+			return new UniformSampling(g, start, costPerBatch, resource, stop);
+		case GREEDY_ORACLE:
+			return new GreedyOracle(g, start, costPerBatch, resource, stop);
+		case MOD:
+			new MaximumObservedDegree(g, start, costPerBatch, resource, stop);
+
 		case DFS_JUMP:
-			break;
+			return new DFS_Jump(g, start, costPerBatch, resource, stop);
 		case DFS_RANDOM:
-			break;
+			return new DFS_random(g, start, costPerBatch, resource, stop);
 		case DFS_RANDOM_JUMP:
-			break;
+			return new DFS_random_Jump(g, start, costPerBatch, resource, stop);
+		case RANDOM_WALK_NR_JUMP:
+			return new RandomWalkNR_Jump(g, start, costPerBatch, resource, stop);
+
 		case FOREST_FIRE:
 			break;
 		case FOREST_FIRE_NR:
 			break;
 		case FRONTIER_SAMPLING:
 			break;
-		case GREEDY_ORACLE:
-			return new GreedyOracle(g, start, costPerBatch, resource, stop);
-		case MOD:
-			new MaximumObservedDegree(g, start, costPerBatch, resource, stop);
-		case RANDOM_WALK:
-			return new RandomWalk(g, start, costPerBatch, resource, stop);
-		case RANDOM_WALK_NR:
-			return new RandomWalkNR(g, start, costPerBatch, resource, stop);
-		case RANDOM_WALK_NR_JUMP:
-			return new RandomWalkNR_Jump(g, start, costPerBatch, resource, stop);
 		case RESPONDENT_DRIVEN:
 			break;
 		case SNOWBALL:
 			break;
-		case UNIFORM:
-			return new UniformSampling(g, start, costPerBatch, resource, stop);
 		}
 		System.err.println("invalid sampling type: " + samplingType);
 		return null;
