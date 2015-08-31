@@ -1,7 +1,5 @@
 #!/bin/bash
 
-outputDir="../results"
-
 function html_header {
 	echo '<?php'
 		# echo '$path = str_replace("/Users/benni/TUD/Projects/DNA/DNA.webpage/web/", "", getcwd());'
@@ -30,23 +28,29 @@ function html_list {
 
 function html_summary {
 	html_header
+	html_summary_image $1 z.statistics.edges
+	html_summary_image $1 z.statistics.nodes
+
 	html_summary_image $1 ExtentR.Seen_and_Visited_Nodes
 	html_summary_image $1 ExtentR.Seen_Nodes
 	html_summary_image $1 ExtentR.Unseen_Nodes
 	html_summary_image $1 ExtentR.Visited_Nodes
+	
 	html_summary_image $1 SamplingModularityB.Sampling_Modularity_V1
 	html_summary_image $1 SamplingModularityB.Sampling_Modularity_V2
-	html_summary_image $1 z.statistics.edges
-	html_summary_image $1 z.statistics.nodes
-	html_summary_image $1 UndirectedClusteringCoefficientU.averageCC
-	html_summary_image $1 UndirectedClusteringCoefficientU.globalCC
-	html_summary_image $1 UnweightedAllPairsShortestPathsR.characteristicPathLength
-	html_summary_image $1 UnweightedAllPairsShortestPathsR.connectivity
-	html_summary_image $1 UnweightedAllPairsShortestPathsR.diameter
-	html_summary_image $1 UnweightedAllPairsShortestPathsR.possiblePaths
-	html_summary_image $1 AssortativityR-out-unweighted.AssortativityCoefficient
+
 	html_summary_image $1 DegreeDistributionR.degreeMax
 	html_summary_image $1 DegreeDistributionR.degreeMin
+	
+	# html_summary_image $1 UndirectedClusteringCoefficientU.averageCC
+	# html_summary_image $1 UndirectedClusteringCoefficientU.globalCC
+	
+	# html_summary_image $1 UnweightedAllPairsShortestPathsR.characteristicPathLength
+	# html_summary_image $1 UnweightedAllPairsShortestPathsR.connectivity
+	# html_summary_image $1 UnweightedAllPairsShortestPathsR.diameter
+	# html_summary_image $1 UnweightedAllPairsShortestPathsR.possiblePaths
+
+	# html_summary_image $1 AssortativityR-out-unweighted.AssortativityCoefficient
 
 	html_footer
 
@@ -73,5 +77,5 @@ function html_single {
 	html_footer
 }
 
-
+outputDir="../results-mcnc"
 html_list > $outputDir/index.php

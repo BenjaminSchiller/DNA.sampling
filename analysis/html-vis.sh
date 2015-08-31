@@ -20,7 +20,11 @@ function html_list_pres {
 	html_header
 	echo "<ul>"
 	for pre in $(ls $outputDir | grep -v 'index.'); do
-		echo "<li><a href='$pre/' style='font-size:12pt; font-weight:bold;'>$pre</a></li>"
+		echo "<li><a href='$pre/' style='font-size:12pt; font-weight:bold;'>$pre</a><ul>"
+		for graph in $(ls $outputDir/$pre | grep -v 'index.'); do
+			echo "<li><a href='$pre/$graph/' style='font-size:12pt; font-weight:bold;'>$graph</a></li>"
+		done
+		echo "</ul></li>"
 		html_list_graphs $pre > $outputDir/$pre/index.php
 	done
 	echo "</ul>"
