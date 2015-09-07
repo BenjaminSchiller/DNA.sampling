@@ -25,6 +25,7 @@ import dna.series.Series;
 import dna.series.data.SeriesData;
 import dna.updates.generators.sampling.SamplingAlgorithm;
 import dna.updates.generators.sampling.SamplingAlgorithm.SamplingStop;
+import dna.updates.generators.sampling.SamplingAlgorithm.WalkingType;
 import dna.util.Config;
 import dna.util.Log;
 
@@ -100,14 +101,16 @@ public class Analysis extends Sampling {
 		runs = Integer.parseInt(args[index++]);
 		batches = Integer.parseInt(args[index++]);
 		metricTypes = args[index++].split(separator);
+		connectivityType = ConnectivityType.valueOf(args[index++]);
+		walkingType = WalkingType.valueOf(args[index++]);
 	}
 
 	public static boolean isOk(String[] args) {
-		return args.length == 13;
+		return args.length == 15;
 	}
 
 	public static void printHelp(String[] args) {
-		System.err.println("Expecting 13 parameters:");
+		System.err.println("Expecting 15 parameters:");
 		System.err.println("   0: main data dir");
 		System.err.println("   1: main plot dir");
 		System.err.println("   2: graph type (" + toString(GraphType.values())
@@ -128,6 +131,9 @@ public class Analysis extends Sampling {
 		System.err.println("  11: batches");
 		System.err.println("  12: metrics (" + toString(MetricType.values())
 				+ ")");
+		System.err.println("  13: connectivity type ("
+				+ toString(ConnectivityType.values()) + ")");
+		System.err.println("  14: walking type (" + ")");
 		System.err.println("got the following parameters:");
 		for (int i = 0; i < args.length; i++) {
 			System.err.println(i + ": " + args[i]);

@@ -16,6 +16,7 @@ import dna.updates.batch.Batch;
 import dna.updates.generators.BatchGenerator;
 import dna.updates.generators.sampling.BFS;
 import dna.updates.generators.sampling.SamplingAlgorithm.SamplingStop;
+import dna.updates.generators.sampling.SamplingAlgorithm.WalkingType;
 import dna.updates.generators.sampling.startNode.RandomSelection;
 import dna.util.Config;
 
@@ -30,7 +31,7 @@ public class Test {
 		g.printAll();
 		GraphGenerator gg = new EmptyGraph(GDS.undirected());
 		BatchGenerator bg = new BFS(g, new RandomSelection(), 10, 100,
-				SamplingStop.Visiting);
+				SamplingStop.Visiting, WalkingType.AllEdges	);
 
 		Graph g_ = gg.generate();
 		Batch b = bg.generate(g_);

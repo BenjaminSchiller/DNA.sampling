@@ -18,8 +18,8 @@ import dna.visualization.graph.GraphVisualization;
 
 public class Visualization extends Sampling {
 
-	public long waitBeforeScreenshot = 50;
-	public long waitAfterScreenshot = 200;
+	public long waitBeforeScreenshot = 10;
+	public long waitAfterScreenshot = 100;
 	public long waitBeforeExit = 2000;
 
 	public static int delay = 20;
@@ -52,6 +52,11 @@ public class Visualization extends Sampling {
 		} else {
 			v.execute();
 		}
+	}
+
+	public String getGraphName() {
+		return super.getGraphName() + "__" + this.costPerBatch + "__"
+				+ this.resource;
 	}
 
 	protected void screenshot(String dir, long timestamp) {
@@ -173,7 +178,7 @@ public class Visualization extends Sampling {
 		Graph g_ = gg_.generate();
 		GraphGenerator gg = new EmptyGraph(g_.getGraphDatastructures());
 		SamplingAlgorithm bg = getSampling(g_);
-		
+
 		GraphVisualization.enable();
 
 		this.execute(gg, bg, 99999999);

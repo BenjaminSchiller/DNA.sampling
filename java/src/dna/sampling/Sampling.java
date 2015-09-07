@@ -13,6 +13,7 @@ import dna.graph.generators.GraphGenerator;
 import dna.graph.generators.canonical.Grid2dGraph;
 import dna.graph.generators.canonical.Grid3dGraph;
 import dna.graph.generators.canonical.HoneyCombGraph.ClosedType;
+import dna.graph.generators.connectivity.StronglyConnectedGraph;
 import dna.graph.generators.connectivity.WeaklyConnectedGraph;
 import dna.graph.generators.evolvingNetworks.BarabasiAlbertGraph;
 import dna.graph.generators.random.RandomGraph;
@@ -32,6 +33,7 @@ import dna.updates.generators.sampling.RandomWalkNR;
 import dna.updates.generators.sampling.RandomWalkNR_Jump;
 import dna.updates.generators.sampling.SamplingAlgorithm;
 import dna.updates.generators.sampling.SamplingAlgorithm.SamplingStop;
+import dna.updates.generators.sampling.SamplingAlgorithm.WalkingType;
 import dna.updates.generators.sampling.UniformSampling;
 import dna.updates.generators.sampling.startNode.HighestDegreeSelection;
 import dna.updates.generators.sampling.startNode.RandomSelection;
@@ -58,6 +60,10 @@ public abstract class Sampling {
 		DIRECTED, UNDIRECTED
 	}
 
+	public static enum ConnectivityType {
+		WeaklyConnected, StronglyConnected
+	}
+
 	public String plotDir;
 
 	public GraphType graphType;
@@ -69,6 +75,9 @@ public abstract class Sampling {
 	public StartNodeType startType;
 	public StartNodeSelectionStrategy start;
 	public SamplingStop stop;
+
+	public ConnectivityType connectivityType;
+	public WalkingType walkingType;
 
 	int costPerBatch;
 	int resource;
@@ -86,7 +95,8 @@ public abstract class Sampling {
 	}
 
 	public String getGraphName() {
-		return getName(graphType.toString(), graphParameters);
+		return getName(graphType.toString(), graphParameters,
+				connectivityType.toString(), walkingType.toString());
 	}
 
 	public String getSamplingName() {
@@ -117,7 +127,15 @@ public abstract class Sampling {
 	}
 
 	public GraphGenerator getGraphGenerator() {
-		return new WeaklyConnectedGraph(getGraphGenerator_());
+		switch (connectivityType) {
+		case StronglyConnected:
+			return new StronglyConnectedGraph(getGraphGenerator_());
+		case WeaklyConnected:
+			return new WeaklyConnectedGraph(getGraphGenerator_());
+		default:
+			throw new IllegalArgumentException("unknown connectivity type: "
+					+ connectivityType);
+		}
 	}
 
 	public GraphGenerator getGraphGenerator_() {
@@ -204,28 +222,37 @@ public abstract class Sampling {
 	public SamplingAlgorithm getSampling(Graph g) {
 		switch (samplingType) {
 		case BFS:
-			return new BFS(g, start, costPerBatch, resource, stop);
+			return new BFS(g, start, costPerBatch, resource, stop, walkingType);
 		case DFS:
-			return new DFS(g, start, costPerBatch, resource, stop);
+			return new DFS(g, start, costPerBatch, resource, stop, walkingType);
 		case RANDOM_WALK:
-			return new RandomWalk(g, start, costPerBatch, resource, stop);
+			return new RandomWalk(g, start, costPerBatch, resource, stop,
+					walkingType);
 		case RANDOM_WALK_NR:
-			return new RandomWalkNR(g, start, costPerBatch, resource, stop);
+			return new RandomWalkNR(g, start, costPerBatch, resource, stop,
+					walkingType);
 		case UNIFORM:
-			return new UniformSampling(g, start, costPerBatch, resource, stop);
+			return new UniformSampling(g, start, costPerBatch, resource, stop,
+					walkingType);
 		case GREEDY_ORACLE:
-			return new GreedyOracle(g, start, costPerBatch, resource, stop);
+			return new GreedyOracle(g, start, costPerBatch, resource, stop,
+					walkingType);
 		case MOD:
-			new MaximumObservedDegree(g, start, costPerBatch, resource, stop);
+			new MaximumObservedDegree(g, start, costPerBatch, resource, stop,
+					walkingType);
 
 		case DFS_JUMP:
-			return new DFS_Jump(g, start, costPerBatch, resource, stop);
+			return new DFS_Jump(g, start, costPerBatch, resource, stop,
+					walkingType);
 		case DFS_RANDOM:
-			return new DFS_random(g, start, costPerBatch, resource, stop);
+			return new DFS_random(g, start, costPerBatch, resource, stop,
+					walkingType);
 		case DFS_RANDOM_JUMP:
-			return new DFS_random_Jump(g, start, costPerBatch, resource, stop);
+			return new DFS_random_Jump(g, start, costPerBatch, resource, stop,
+					walkingType);
 		case RANDOM_WALK_NR_JUMP:
-			return new RandomWalkNR_Jump(g, start, costPerBatch, resource, stop);
+			return new RandomWalkNR_Jump(g, start, costPerBatch, resource,
+					stop, walkingType);
 
 		case FOREST_FIRE:
 			break;

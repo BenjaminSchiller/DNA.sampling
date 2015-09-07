@@ -110,7 +110,8 @@ public class Plot {
 		System.err.println("Expecting at least 3 arguments:");
 		System.err.println("  0: main data dir");
 		System.err.println("  1: plot dir");
-		System.err.println("  2,3,...: name of series");
+		System.err.println("  2: type (ALL_IN_DIR, LIST_OF_NAMES)");
+		System.err.println("  [3,4,...: list of names]");
 	}
 
 }
