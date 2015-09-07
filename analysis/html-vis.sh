@@ -1,6 +1,6 @@
 #!/bin/bash
 
-outputDir="../vis"
+outputDir="../results-vis"
 
 function html_header {
 	echo '<?php'
@@ -54,23 +54,24 @@ function html_graph {
 
 	html_footer
 
-	for graph in $(ls $outputDir/$1 | grep -v 'index.'); do
-		html_single $1 $graph
-	done
+	# for graph in $(ls $outputDir/$1 | grep -v 'index.'); do
+	# 	html_single $1 $graph
+	# done
 }
 
 function html_graph_sampling {
-	if [[ -e "$outputDir/$1/$2/$3__RANDOM__Visiting/animated.gif" ]]; then
+	dir=$(ls $outputDir/$1/$2/ | grep $3)
+	if [[ -e "$outputDir/$1/$2/$dir/animated.gif" ]]; then
 		echo "<h2>$3</h2>"
-		echo "<a href='$3__RANDOM__Visiting/animated.gif'><img width='700' src='$3__RANDOM__Visiting/animated.gif' alt='$graph' title='$graph' style='border: 1px dotted;'/></a>"
+		echo "<a href='$dir/animated.gif'><img width='700' src='$dir/animated.gif' alt='$graph' title='$graph' style='border: 1px dotted;'/></a>"
 		echo "<?php spacer(); ?>"
 	fi
 }
 
 function html_single {
-	html_header
+	# html_header
 	echo "$1 ... $2"
-	html_footer
+	# html_footer
 }
 
 
