@@ -130,10 +130,11 @@ public class Analysis extends Sampling {
 		System.err.println("  10: runs");
 		System.err.println("  11: batches");
 		System.err.println("  12: metrics (" + toString(MetricType.values())
-				+ ")");
+				+ ") separated by " + separator);
 		System.err.println("  13: connectivity type ("
 				+ toString(ConnectivityType.values()) + ")");
-		System.err.println("  14: walking type (" + ")");
+		System.err.println("  14: walking type ("
+				+ toString(WalkingType.values()) + ")");
 		System.err.println("got the following parameters:");
 		for (int i = 0; i < args.length; i++) {
 			System.err.println(i + ": " + args[i]);

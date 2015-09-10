@@ -43,3 +43,46 @@ For each sampled graph, a separate html/php page is generated displaying a visua
 ## Results
 
 A set of these results, including the generated html files can be found on [dynamic-networks.org](http://dynamic-networks.org/use_cases/sampling/).
+
+## jar Parameters
+
+### analysis.jar
+
+	Expecting 15 parameters:
+	   0: main data dir
+	   1: main plot dir
+	   2: graph type (RANDOM, BA, READ, READ_EDGE_LIST, GRID2d, GRID3d)
+	   3: graph parameters (separated by __)
+	   4: sampling type (BFS, DFS, DFS_JUMP, DFS_RANDOM_JUMP, DFS_RANDOM, FOREST_FIRE, FOREST_FIRE_NR, FRONTIER_SAMPLING, GREEDY_ORACLE, MOD, RANDOM_WALK, RANDOM_WALK_NR_JUMP, RANDOM_WALK_NR, RESPONDENT_DRIVEN, SNOWBALL, UNIFORM)
+	   5: sampling parameters (separated by __)
+	   6: start node strategy (HIGHEST_DEGREE, HIGHEST_RANDOM_DEGREE, HIGHEST_RANDOM_DEGREE_SUM, RANDOM)
+	   7: sampling stop (Seeing, Visiting)
+	   8: cost per batch
+	   9: resource
+	  10: runs
+	  11: batches
+	  12: metrics (DD, ASS, APSP, MOD, CC, M, EXT) separated by __
+	  13: connectivity type (WeaklyConnected, StronglyConnected)
+	  14: walking type (AllEdges, InEdges, OutEdges)
+
+### plot.jar
+
+	Expecting at least 3 arguments:
+	  0: main data dir
+	  1: plot dir
+	  2: type (ALL_IN_DIR, LIST_OF_NAMES)
+	  [3,4,...: list of names]
+
+### vis.jar
+
+	Expecting 10 parameters:
+	   0: main plot dir
+	   1: graph type (RANDOM, BA, READ, READ_EDGE_LIST, GRID2d, GRID3d)
+	   2: graph parameters (separated by __)
+	   3: sampling type (BFS, DFS, DFS_JUMP, DFS_RANDOM_JUMP, DFS_RANDOM, FOREST_FIRE, FOREST_FIRE_NR, FRONTIER_SAMPLING, GREEDY_ORACLE, MOD, RANDOM_WALK, RANDOM_WALK_NR_JUMP, RANDOM_WALK_NR, RESPONDENT_DRIVEN, SNOWBALL, UNIFORM)
+	   4: sampling parameters (separated by __)
+	   5: start node strategy (HIGHEST_DEGREE, HIGHEST_RANDOM_DEGREE, HIGHEST_RANDOM_DEGREE_SUM, RANDOM)
+	   6: sampling stop (Seeing, Visiting)
+	   7: cost per batch
+	   8: resource
+	   9: delay for gif video
