@@ -68,10 +68,20 @@ algorithms=(BFS DFS RANDOM_WALK RANDOM_WALK_NR UNIFORM MOD GREEDY_ORACLE)
     metrics="DD__MOD__EXT"
 ##########################################################################################
 
-# pre="walking-type/k-hop-datasets-urv"
-# plotting READ_EDGE_LIST datasets--k-hop--__urv.del__DIRECTED 12 1133 StronglyConnected AllEdges
-# plotting READ_EDGE_LIST datasets--k-hop--__urv.del__DIRECTED 12 1133 StronglyConnected InEdges
-# plotting READ_EDGE_LIST datasets--k-hop--__urv.del__DIRECTED 12 1133 StronglyConnected OutEdges
+# pre="walking-type/Random-1k"
+# plotting RANDOM 0__DIRECTED__1000__8000 10 1000 StronglyConnected AllEdges
+# plotting RANDOM 0__DIRECTED__1000__8000 10 1000 StronglyConnected InEdges
+# plotting RANDOM 0__DIRECTED__1000__8000 10 1000 StronglyConnected OutEdges
+
+pre="walking-type/Random-10k"
+plotting RANDOM 0__DIRECTED__10000__80000 100 10000 StronglyConnected AllEdges
+plotting RANDOM 0__DIRECTED__10000__80000 100 10000 StronglyConnected InEdges
+plotting RANDOM 0__DIRECTED__10000__80000 100 10000 StronglyConnected OutEdges
+
+pre="walking-type/k-hop-datasets-urv"
+plotting READ_EDGE_LIST datasets--k-hop--__urv.del__DIRECTED 12 1133 StronglyConnected AllEdges
+plotting READ_EDGE_LIST datasets--k-hop--__urv.del__DIRECTED 12 1133 StronglyConnected InEdges
+plotting READ_EDGE_LIST datasets--k-hop--__urv.del__DIRECTED 12 1133 StronglyConnected OutEdges
 
 pre="walking-type/SNAP-datasets-HepTh"
 plotting READ_EDGE_LIST datasets--SNAP--__cit-HepTh.del__DIRECTED 483 48239 StronglyConnected AllEdges
@@ -87,11 +97,6 @@ pre="walking-type/SNAP-datasets-Enron"
 plotting READ_EDGE_LIST datasets--SNAP--__email-Enron.del__DIRECTED 734 73384 StronglyConnected AllEdges
 plotting READ_EDGE_LIST datasets--SNAP--__email-Enron.del__DIRECTED 734 73384 StronglyConnected InEdges
 plotting READ_EDGE_LIST datasets--SNAP--__email-Enron.del__DIRECTED 734 73384 StronglyConnected OutEdges
-
-pre="walking-type/Random-10k"
-plotting RANDOM 0__DIRECTED__10000__80000 100 10000 StronglyConnected AllEdges
-plotting RANDOM 0__DIRECTED__10000__80000 100 10000 StronglyConnected InEdges
-plotting RANDOM 0__DIRECTED__10000__80000 100 10000 StronglyConnected OutEdges
 
 
 

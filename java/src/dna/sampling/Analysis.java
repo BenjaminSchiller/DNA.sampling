@@ -149,7 +149,9 @@ public class Analysis extends Sampling {
 		SamplingAlgorithm bg = getSampling(g);
 		Metric[] metrics = getMetrics(g, bg);
 		Series s = new Series(gg, bg, metrics, getDataDir(), getSamplingName());
-		SeriesData sd = s.generate(runs, batches);
+		SeriesData sd = runs == 1 ? s.generateRuns(0, 0, batches) : s.generate(
+				runs, batches);
+		// SeriesData sd = s.generate(runs, batches);
 		PlottingConfig cfg = new PlottingConfig(PlotFlag.plotMetricValues,
 				PlotFlag.plotStatistics);
 		Plotting.plot(sd, getPlotDir(), cfg);

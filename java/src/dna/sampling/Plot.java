@@ -90,8 +90,8 @@ public class Plot {
 	public void execute() throws IOException, InterruptedException {
 		SeriesData[] sd = new SeriesData[names.length];
 		for (int i = 0; i < names.length; i++) {
-			String name = names[i].replace("__RANDOM__Visiting", "");
-			sd[i] = SeriesData.read(getDataDir(names[i]), name, true, true);
+			String name = names[i].split("__RANDOM__Visiting")[0];
+			sd[i] = SeriesData.read(getDataDir(names[i]), name, false, true);
 		}
 		PlottingConfig cfg = new PlottingConfig(PlotFlag.plotMetricValues,
 				PlotFlag.plotStatistics);
